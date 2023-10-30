@@ -8,7 +8,9 @@ Github: https://github.com/felixcool200/DD2360HT23
 1. Explain how the program is compiled and run.
 
     **ANSWER:**
-    I have a make file in the code repo (I used nvcc)
+    To compile the program use the created a make file that executes the following command:
+
+    ```nvcc -arch=sm_61 vecto`.cu -o a.out```
 
 2. For a vector length of N:
 
@@ -20,7 +22,7 @@ Github: https://github.com/felixcool200/DD2360HT23
     2. How many global memory reads are being performed by your kernel? 
         
         **ANSWER:**
-        Since both vectors are read once for each addition there is a total of 2N globalreads from global memory.
+        Since both vectors are read once for each addition there is a total of 2N reads from global memory.
 
 3. For a vector length of 1024:
     1. Explain how many CUDA threads and thread blocks you used. 
@@ -36,7 +38,6 @@ Github: https://github.com/felixcool200/DD2360HT23
         I got Achieved Occupancy of 3.12% and a Theoretical Occupancy of 50%.
 
         When incresing the threads per block from 32 to 64 the Theoretical Occupancy increesed to 100% and the Achieved Occupancy to 6.19%
-
 
 4. Now increase the vector length to 131070:
 
@@ -68,22 +69,23 @@ Github: https://github.com/felixcool200/DD2360HT23
 1. Name three applications domains of matrix multiplication.
 
     **ANSWER:**
-    One application is machine learning matrix multiplication is the base of training a model. This is why, tensor cores are developed esecially to calculate matrix multiplications.
+    One application is machine learning, where matrix multiplication forms the foundation for training models. This is why tensor cores are specifically developed for performing matrix multiplications.
 
-    Another application is solving linear equation systems. That is essential is engineering as many systems can be modeled as a linear combination of variables.
+    Another application is solving linear equation systems, which is essential in engineering, as many systems can be modeled as a linear combination of variables.
 
-    Lastly in game programming matrix multiplication can be used to rotate objects in 3d space (using rotation matrices).
+    Lastly, in game programming, matrix multiplication can be used to rotate objects in 3D space, often employing rotation matrices.
 
 2.  How many floating operations are being performed in your matrix multiply kernel? 
 
     **ANSWER:**
-    I have written three different implementation of my kernal. The one using atomicAdd runs 2 floating point operation (per thread), one for multiplying the values and one for atomicadd to the C vector.
 
-    While the second runs first a two floating point operation (similar to the last one, but add to shared variable instead of atomicAdd), but if it is threadIdx.x = 0 it also does numAColumns additional floating point operations when taking the sum over the shared variable. 
+    I have implemented three different versions of my kernel. The first one utilizes atomicAdd and performs two floating-point operations per thread: one for multiplying the values and another for atomicAdd to the C vector.
 
-    Lastly my last kernal always runs numAColumns floating point operations (per thread).
+    The second version initially involves two floating-point operations, similar to the first one, but instead of atomicAdd, it adds to a shared variable. Additionally, if threadIdx.x equals 0, it performs an additional numAColumns floating-point operations when calculating the sum over the shared variable.
 
-    When talking about an entire run we multiply the number from the previous question with how many threads are created. Which is equal to the amount of numCRows * numCColumns for the first and third kernal implementation but for the second one there is numCRows * numCColumns * numAColumns since it runs all calculations in paralell. 
+    Finally, my last kernel always runs numAColumns floating-point operations per thread.
+
+    When considering an entire run, we multiply the number from the previous question by the number of threads created, which is equal to the product of numCRows and numCColumns for the first and third kernel implementations. However, for the second one, it results in numCRows * numCColumns * numAColumns, as it conducts all calculations in parallel.
 
     (I added a table at the end of question 3 to show all values)
 
@@ -106,16 +108,22 @@ Github: https://github.com/felixcool200/DD2360HT23
     1. Explain how many CUDA threads and thread blocks you used.
 
         **ANSWER:**
-        For the first and second kernal implementation there is numCRows * numCColumns * numAColumns which results in 128^3 = 2097152 CUDA threads
+        The first and second kernal implementation have numCRows * numCColumns * numAColumns = 128^3 = 2097152 CUDA threads.
+        These two methods use a threads per block of numARows = 128.
+        Which results in 2097152/128 = 16384 thread blocks.
 
         For the third kernal implementation there are numCRows * numCColumns kernals which means that in this case it is 128^2 = 16384 CUDA threads.
-        
+        This method uses thread blocks 16384
+        (128+32-1)/32 -> 4 threads in each dimension which results in a 4\*4 = 16 thread per block.
+        Which results in 16384/16 = 1024 thread blocks.
+
     2. Profile your program with Nvidia Nsight. What Achieved Occupancy did you get? 
 
         **ANSWER:**
         | Kernal                 	| gemmShared 	| gemmAtomicAdd 	| gemmBIG 	|
         |------------------------	|------------	|---------------	|---------	|
         | Cuda threads           	| 2097152      	| 2097152       	| 16384   	|
+        | Cuda thread blocks     	| 16384       	| 16384           	| 1024    	|
         | Achieved occupancy (%) 	| 88.35      	| 88.55         	| 98.15   	|
 
 5. For a matrix A of (511x1023) and B of (1023x4094):
@@ -123,14 +131,18 @@ Github: https://github.com/felixcool200/DD2360HT23
     1. Did your program still work? If not, what changes did you make?
 
         **ANSWER:**
-        This workes for all three of my kernal versions (first and second kernal does not allow for 1023 to go above 1024, since that would need more than 1024 threads per block which is not possible).
+        This worked for all three of my kernal versions (first and second kernal does not allow for 1023 to go above 1024, since that would need more than 1024 threads per block which is not possible).
 
     2. Explain how many CUDA threads and thread blocks you used.
 
         **ANSWER:**
-        For the first and second kernal implementation there is numCRows * numCColumns * numAColumns which results in 511 * 4094 * 1023  = 2140150782 CUDA threads
+        The first and second kernal implementation have numCRows * numCColumns * numAColumns which results in 511 * 4094 * 1023  = 2140150782 CUDA threads.
+        These two methods use a threads per block of numARows = 128.
+        Which results in 2140150782/1023 = 2092034 thread blocks.
 
         For the third kernal implementation there are numCRows * numCColumns kernals which means that in this case it is 511 * 4094 = 2092034 CUDA threads.
+        These two methods use a threads per block of numARows = 511.
+        Which results in 2092034/511 = 4094 thread blocks.
 
     3. Profile your program with Nvidia Nsight. What Achieved Occupancy do you get now?
 
@@ -138,6 +150,7 @@ Github: https://github.com/felixcool200/DD2360HT23
         | Kernal                 	| gemmShared 	| gemmAtomicAdd 	| gemmBIG 	|
         |------------------------	|------------	|---------------	|---------	|
         | Cuda threads           	| 2140150782 	| 2140150782    	| 2092034 	|
+        | Cuda thread blocks     	| 2092034      	| 2092034          	| 4094   	|
         | Achieved occupancy (%) 	| 16.33      	| 74.01         	| 98.64   	|
 
 6. Further increase the size of matrix A and B, plot a stacked bar chart showing the breakdown of time including (1) data copy from host to device (2) the CUDA kernel (3) data copy from device to host. For this, you will need to add simple CPU timers to your code regions. Explain what you observe.
@@ -155,7 +168,6 @@ Github: https://github.com/felixcool200/DD2360HT23
 
     **ANSWER:**
     Firstly I had to decrese the max random number from 10000 to 100 and increse the tolerane from 0.004 to 1. This is because otherwise the float was not able to store the result to high enough precision.
-
 
     ![Float gemmShared](Float%20gemmShared.svg)
     ![Float gemmAtomicAdd](Float%20gemmAtomicAdd.svg)

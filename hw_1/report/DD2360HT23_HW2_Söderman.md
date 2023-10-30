@@ -3,8 +3,6 @@
 Felix Söderman DD2360 HT23\
 Github: https://github.com/felixcool200/DD2360HT23
 
-**Individual contributions:** Both students worked on 90% of the project together (including writing the report), while communicating verbally. The last 10% included scheduling conflicts where the students worked individually on the code. Both provided ideas for potential optimizations, and each wrote about 50% of the code and report.
-
 ## Exercise 1 - Reflection on GPU-accelerated Computing
 1. List the main differences between GPUs and CPUs in terms of architecture.
 
@@ -70,20 +68,20 @@ Github: https://github.com/felixcool200/DD2360HT23
     **ANSWER:** 
     The screenshot of the output from you running deviceQuery test.
 
-    Screenshot from running Device Query on Felix laptop
+    Screenshot from running Device Query on my laptop
     ![Screenshot from laptop](deviceQuery_laptop.png)
     Screenshot from running Device Query on Google Colab
     ![Screenshot from colab](deviceQuery_colab.png)
 
 2. What is the Compute Capability of your GPU device?
     **ANSWER:** 
-    Felix Laptop with GTX 1050 ti Max-Q has a compute compatibility of 6.1.
+    My Laptop with GTX 1050 ti Max-Q has a compute compatibility of 6.1.
     The NVIDIA T4 on Google Colab has a compute compatibility of 7.5
 
 3. The screenshot of the output from running bandwidthTest test in /1_Utilities.
 
     **ANSWER:**
-    Screenshot from running bandwidthTest on Felix laptop
+    Screenshot from running bandwidthTest on my laptop
     ![Screenshot from laptop](bandwidth_laptop.png)
     Screenshot from running bandwidthTest on Google Colab
     ![Screenshot from colab](bandwidth_colab.png)
@@ -182,7 +180,7 @@ Github: https://github.com/felixcool200/DD2360HT23
 3. Do you observe expected speedup on GPU compared to CPU? Why or Why not?
 
     **ANSWER:**
-    Over all the three workloads the CUDA version ran faster. This is most likley since all the workload were easily parallelizable. When running the programs with fewer iterations/smaller values (for example amount of particles in the particlefilter) the CPU and GPU had comparable speeds but when incresing the amount of particles in parallel the CUDA program ran much faster.
+    For both workloads the CUDA version ran faster. This is most likley since all the workload were easily parallelizable. When running the programs with fewer iterations/smaller values (for example amount of particles in the particlefilter) the CPU and GPU had comparable speeds but when incresing the amount of particles in parallel the CUDA program ran much faster.
 
 ## Exercise 4 - Run a HelloWorld on AMD GPU
 
