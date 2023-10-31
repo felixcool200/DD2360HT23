@@ -74,8 +74,10 @@ Github: https://github.com/felixcool200/DD2360HT23
     ![Screenshot from colab](deviceQuery_colab.png)
 
 2. What is the Compute Capability of your GPU device?
+    
     **ANSWER:** 
-    My Laptop with GTX 1050 ti Max-Q has a compute compatibility of 6.1.
+    My Laptop with GTX 1050 Ti Max-Q has a compute compatibility of 6.1.
+
     The NVIDIA T4 on Google Colab has a compute compatibility of 7.5
 
 3. The screenshot of the output from running bandwidthTest test in /1_Utilities.
@@ -102,19 +104,21 @@ Github: https://github.com/felixcool200/DD2360HT23
 
         Memory bus speed = (16 * (7008 * 10^6)) / 10^9 = 112.128 GB/s.
 
+    Using the bandwidth test, I am able to achieve a speed of 97.8 GB/s, which is approximately 87% of the theoretical top speed. This seems reasonable, as many other factors can impact the transfer speed.
 
 ## Exercise 3 - Rodinia CUDA benchmarks and Comparison with CPU
 
 1. Compile both OMP and CUDA versions of your selected benchmarks. Do you need to make any changes in Makefile?
 
     **ANSWER:**
-    When running the CUDA version of particalfilter the compute capability had to be changed to match Felix laptop GPU by changing ```sm_13``` to ```sm_61``` on line 12 and line 15 in the makefile.
+    When running the CUDA version of particalfilter the compute capability had to be changed to match my laptop GPU by changing ```sm_13``` to ```sm_61``` on line 12 and line 15 in the makefile.
 
     When running hotspot3D the first line in the makefile as incorrect and neededto be changed from
 
     ``` include ~/rodinia_3.0/common/make.config``` \
     to\
     ``` include ../../common/make.config ```
+    
 2. Ensure the same input problem is used for OMP and CUDA versions. Report and compare their execution time. 
 
     **ANSWER:**
