@@ -10,14 +10,14 @@ Github: https://github.com/felixcool200/DD2360HT23
     **ANSWER:**
     To compile the program use the created a make file that executes the following command:
 
-    ```nvcc -arch=sm_61 vecto`.cu -o a.out```
+    ```nvcc -arch=sm_61 vector.cu -o a.out```
 
 2. For a vector length of N:
 
     1. How many floating operations are being performed in your vector add kernel? 
         
         **ANSWER:**
-        When adding a two vectors of length N there are N plus floating point operations that are performed.
+        When adding a two vectors of length N there are N addition floating point operations that are performed.
 
     2. How many global memory reads are being performed by your kernel? 
         
@@ -28,10 +28,8 @@ Github: https://github.com/felixcool200/DD2360HT23
     1. Explain how many CUDA threads and thread blocks you used. 
 
         **ANSWER:**
-        I used (1024+32-1)/32 = 32 thread blocks.
-        and I used 32*32=1024 CUDA threads.
+        I used (1024+32-1)/32 = 32 thread blocks and I used 32*32=1024 CUDA threads.
         
-
     2. Profile your program with Nvidia Nsight. What Achieved Occupancy did you get?
 
         **ANSWER:**
@@ -49,8 +47,7 @@ Github: https://github.com/felixcool200/DD2360HT23
     2. Explain how many CUDA threads and thread blocks you used.
 
         **ANSWER:**
-        I used (131070+32-1)/32 = 4096 thread blocks.
-        and I used 4096*32 = 131072 CUDA threads.
+        I used (131070+32-1)/32 = 4096 thread blocks and I used 4096*32 = 131072 CUDA threads.
 
     3. Profile your program with Nvidia Nsight. What Achieved Occupancy do you get now?
 
@@ -85,7 +82,7 @@ Github: https://github.com/felixcool200/DD2360HT23
 
     Finally, my last kernel always runs numAColumns floating-point operations per thread.
 
-    When considering an entire run, we multiply the number from the previous question by the number of threads created, which is equal to the product of numCRows and numCColumns for the first and third kernel implementations. However, for the second one, it results in numCRows * numCColumns * numAColumns, as it conducts all calculations in parallel.
+    When considering an entire run, I multiply the number from the previous question by the number of threads created, which is equal to the product of numCRows and numCColumns for the first and third kernel implementations. However, for the second one, it results in numCRows * numCColumns * numAColumns, as it conducts all calculations in parallel.
 
     (I added a table at the end of question 3 to show all values)
 

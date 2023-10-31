@@ -31,7 +31,7 @@ Github: https://github.com/felixcool200/DD2360HT23
 3. Now assume X=600 and Y=799, how many warps will have control divergence? Please explain your answers.
 
     **ANSWER:**
-    In this case we get a similar setup to the last one but instead of them fitting perfectly in Y direction we get even more control divergence at the last row of blocks. This means that the entire last row that was working before now get control divergance. Thus 37 more blocks diverge (But ony the last warp in each block). (The last in the row already diverged on all 8 of its warps and thus does not generate any more control divergence). 
+    In this case we get a similar setup to the last one but instead of them fitting perfectly in Y direction we get even more control divergence at the last row of blocks. This means that the entire last row that was working before now get control divergance. Thus 37 more blocks diverge (But only the last warp in each block). (The last in the row already diverged on all 8 of its warps and thus does not generate any more control divergence). 
 
     8 warps \* 37 blocks X \* 50 blocks Y = 15200 warps.
 
@@ -45,8 +45,6 @@ Github: https://github.com/felixcool200/DD2360HT23
     After adding pinned memory allocation to the old implementation (to make it a fair comparison). I was able to get the following results when changing the s_seg (and thus incresing the amount of streams).
 
     When I decided on locking the amount of streams to four and instead reuse the streams I get the following results.
-
-    
 
 2. Use nvprof to collect traces and the NVIDIA Visual Profiler (nvvp) to visualize the overlap of communication and computation.
 
