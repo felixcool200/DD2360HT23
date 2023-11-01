@@ -257,6 +257,12 @@ Github: https://github.com/felixcool200/DD2360HT23
         !rm -rf /content/sputniPIC-DD2360/bin/data/
         !rm -rf /content/sputniPIC-DD2360/bin/data_GPU/
         !rm /content/sputniPIC-DD2360/src/Particles.cu
+        !rm /content/sputniPIC-DD2360/Makefile
+
+        !git clone https://github.com/felixcool200/DD2360HT23.git
+        !mv DD2360HT23/hw_3/ex_2/particles.cu ParticlesGPU.cu
+        !mv DD2360HT23/hw_3/ex_2/Makefile /content/sputniPIC-DD2360/Makefile
+        !rm -rf DD2360HT23
 
         # ==================== GPU ====================
         !cp /content/ParticlesGPU.cu /content/sputniPIC-DD2360/src/Particles.cu
@@ -280,6 +286,7 @@ Github: https://github.com/felixcool200/DD2360HT23
         !mkdir -p data
         !./sputniPIC.out /content/sputniPIC-DD2360/inputfiles/GEM_2D.inp
         %cd /content
+
 2. Describe your design of the GPU implementation of mover_PC() briefly. 
 
     **ANSWER:**
